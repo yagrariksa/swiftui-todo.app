@@ -8,58 +8,31 @@
 import SwiftUI
 
 struct ListTodoView: View {
-    var todos = ["a", "b", "c"]
+    var todos = ["a", "b", "c","a", "b", "c","a", "b", "c"]
+    
+    @State private var yes = false
+    @State private var showAddItemSheet = false
+    @State private var searchQuery = "abc"
+    
+    @State private var selected: String? = nil
+
     var body: some View {
         VStack {
-            Spacer()
-            ScrollView {
-                Rectangle()
-                    .frame(height: 0.3)
-                    .foregroundColor(.gray)
+            List {
+                
                 ForEach(todos, id: \.self) { todo in
-                    HStack(alignment: .top) {
-                        Image(systemName: "circle")
-                            .resizable()
-                            .frame(width: 25, height: 25)
-                            .onTapGesture {
-                                print("Done!")
-                            }
-                            .padding(.trailing, 4)
-                            .padding(.top, 8)
-                        Button {
-                            print("Click!")
-                        } label: {
-                            
-                            VStack(alignment: .leading) {
-                                Text(todo)
-                                    .font(.headline)
-                                    .foregroundColor(.black)
-                                Spacer(minLength: 4)
-                                HStack {
-                                    Text("Deadline:")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                    Text("\(Date().formatted(.dateTime))")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                                Spacer(minLength: 4)
-                                Text("#A")
-                                    .font(.subheadline)
-                                    .foregroundColor(.blue)
-                                Spacer(minLength: 8)
-                                Rectangle()
-                                    .frame(height: 0.3)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .padding(.vertical, 4)
-                        .padding(.leading, 4)
-                    }
+                    ListItem(todo: todo, yes: $yes, onClick: {
+                        selected = todo
+                        showAddItemSheet = true
+                    })
                 }
                 .padding(.leading, 16)
                 .padding(.vertical, 4)
             }
+            .listStyle(.plain)
+            .searchable(
+                text: $searchQuery,
+                placement: .navigationBarDrawer(displayMode: .automatic))
             Spacer()
         }
         .navigationTitle("ToDo")
@@ -67,7 +40,7 @@ struct ListTodoView: View {
         .toolbar {
             ToolbarItem(id: "add", placement: .bottomBar) {
                 Button {
-                    print("Add Task")
+                    showAddItemSheet.toggle()
                 } label: {
                     HStack {
                         Image(systemName: "plus")
@@ -76,6 +49,12 @@ struct ListTodoView: View {
                 }
                 
             }
+        }
+        .sheet(isPresented: $showAddItemSheet) {
+            NewTodoView(dismiss: {
+                showAddItemSheet.toggle()
+                selected = nil
+            }, edit: selected)
         }
         
         
