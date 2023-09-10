@@ -11,8 +11,6 @@
 		40B6EBBB2AADF7C80023DB38 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B6EBBA2AADF7C80023DB38 /* ContentView.swift */; };
 		40B6EBBD2AADF7C90023DB38 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40B6EBBC2AADF7C90023DB38 /* Assets.xcassets */; };
 		40B6EBC02AADF7C90023DB38 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40B6EBBF2AADF7C90023DB38 /* Preview Assets.xcassets */; };
-		40B6EBC22AADF7C90023DB38 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B6EBC12AADF7C90023DB38 /* Persistence.swift */; };
-		40B6EBC52AADF7C90023DB38 /* ToDoList.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 40B6EBC32AADF7C90023DB38 /* ToDoList.xcdatamodeld */; };
 		40B6EBCF2AADF7C90023DB38 /* ToDoListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B6EBCE2AADF7C90023DB38 /* ToDoListTests.swift */; };
 		40B6EBD92AADF7C90023DB38 /* ToDoListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B6EBD82AADF7C90023DB38 /* ToDoListUITests.swift */; };
 		40B6EBDB2AADF7C90023DB38 /* ToDoListUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40B6EBDA2AADF7C90023DB38 /* ToDoListUITestsLaunchTests.swift */; };
@@ -41,8 +39,6 @@
 		40B6EBBA2AADF7C80023DB38 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		40B6EBBC2AADF7C90023DB38 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		40B6EBBF2AADF7C90023DB38 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		40B6EBC12AADF7C90023DB38 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
-		40B6EBC42AADF7C90023DB38 /* ToDoList.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ToDoList.xcdatamodel; sourceTree = "<group>"; };
 		40B6EBCA2AADF7C90023DB38 /* ToDoListTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40B6EBCE2AADF7C90023DB38 /* ToDoListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoListTests.swift; sourceTree = "<group>"; };
 		40B6EBD42AADF7C90023DB38 /* ToDoListUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoListUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,8 +97,6 @@
 				40B6EBB82AADF7C80023DB38 /* ToDoListApp.swift */,
 				40B6EBBA2AADF7C80023DB38 /* ContentView.swift */,
 				40B6EBBC2AADF7C90023DB38 /* Assets.xcassets */,
-				40B6EBC12AADF7C90023DB38 /* Persistence.swift */,
-				40B6EBC32AADF7C90023DB38 /* ToDoList.xcdatamodeld */,
 				40B6EBBE2AADF7C90023DB38 /* Preview Content */,
 			);
 			path = ToDoList;
@@ -263,10 +257,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40B6EBC22AADF7C90023DB38 /* Persistence.swift in Sources */,
 				40B6EBBB2AADF7C80023DB38 /* ContentView.swift in Sources */,
 				40B6EBB92AADF7C80023DB38 /* ToDoListApp.swift in Sources */,
-				40B6EBC52AADF7C90023DB38 /* ToDoList.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,19 +583,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		40B6EBC32AADF7C90023DB38 /* ToDoList.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				40B6EBC42AADF7C90023DB38 /* ToDoList.xcdatamodel */,
-			);
-			currentVersion = 40B6EBC42AADF7C90023DB38 /* ToDoList.xcdatamodel */;
-			path = ToDoList.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 40B6EBAD2AADF7C80023DB38 /* Project object */;
 }
