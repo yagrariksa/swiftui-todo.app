@@ -10,6 +10,7 @@ import SwiftUI
 struct TodoItem: View {
     
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.editMode) var editMode
     
     var todo: Task
     var onClick: () -> Void
@@ -27,12 +28,16 @@ struct TodoItem: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            Image(systemName: todo.finish ? "checkmark.circle.fill" : "circle")
-                .resizable()
-                .frame(width: 25, height: 25)
-                .onTapGesture(perform: finishToggle)
-                .padding(.trailing, 8)
-                .padding(.top, 8)
+            if let em = editMode {
+                if em.wrappedValue == .inactive  {
+                    Image(systemName: todo.finish ? "checkmark.circle.fill" : "circle")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .onTapGesture(perform: finishToggle)
+                        .padding(.trailing, 8)
+                        .padding(.top, 8)
+                }
+            }
             
             Button {
                 onClick()
@@ -54,7 +59,7 @@ struct TodoItem: View {
     
     var information: some View {
         VStack(alignment: .leading) {
-            Text(todo.title!)
+            Text(todo.title ?? "")
                 .font(.headline)
                 .foregroundColor(.black)
                 .strikethrough(todo.finish)

@@ -31,19 +31,72 @@ struct ListTodoView: View {
         todoDP.updateAll(Array(todos), filterActive, searchQuery)
     }
     
+    var unfinished: [Task] {
+        return todoDP.todos.filter({ todo in
+            return !todo.finish
+        })
+    }
+    
+    var finished: [Task] {
+        return todoDP.todos.filter({ todo in
+            return todo.finish
+        })
+    }
+    
+    func performDelete(_ offset: IndexSet, _ array: [Task] ) {
+        let datas = offset.map { array[$0] }
+        for data in datas {
+            viewContext.delete(data)
+        }
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("🔴FAIL performDelete")
+        }
+    }
+    
+    var emptyInfo: String {
+        if todos.isEmpty {
+            return "Let's Start !"
+        }else if todoDP.todos.isEmpty {
+            var txt = ""
+            txt += "Empty ToDo Data"
+            if searchQuery != "" {
+                txt += "\n\nWith Search: \(searchQuery)"
+            }
+            if !filterActive.isEmpty {
+                txt += "\n\nWith Category\n"
+                for active in filterActive {
+                    txt += "\(active.title ?? "")"
+                    if active != filterActive.last {
+                        txt += ", "
+                    }
+                }
+                return txt
+            }
+            return txt
+        }
+        return ""
+    }
+    
     var body: some View {
         VStack {
             Spacer()
+            
+            if emptyInfo != "" {
+                Text(emptyInfo)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+            }
             List {
-                ForEach(todoDP.todos.filter({ todo in
-                    return !todo.finish
-                }), id: \.self) { todo in
+                ForEach(unfinished, id: \.self) { todo in
                     TodoItem(todo: todo, onClick: {
                         selected = todo
                     })
                 }
                 .onDelete(perform: { offset in
-                    offset.map { todos[$0] }.forEach(viewContext.delete)
+                    performDelete(offset, unfinished)
                 })
                 .padding(.leading, 16)
                 .padding(.vertical, 4)
@@ -116,6 +169,10 @@ struct ListTodoView: View {
                     }
                 }
             }
+            
+            ToolbarItem(id: "edit", placement: .navigationBarTrailing) {
+                EditButton()
+            }
         }
         .sheet(isPresented: $showAddItemSheet) {
             NewTodoView(dismiss: {
@@ -130,12 +187,7 @@ struct ListTodoView: View {
         }
     }
     
-    var finished: [Task] {
-        return todoDP.todos.filter({ todo in
-            return todo.finish
-        })
-
-    }
+    
     
     var taskFinishedSection: some View {
     
@@ -145,6 +197,9 @@ struct ListTodoView: View {
                     selected = todo
                 })
             }
+            .onDelete(perform: { offset in
+                performDelete(offset, finished)
+            })
             .padding(.leading, 16)
             .padding(.vertical, 4)
         }
