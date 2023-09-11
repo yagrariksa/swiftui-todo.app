@@ -22,7 +22,6 @@ struct ListTodoView: View {
     
     @State private var selected: Task? = nil
     @State private var showAddCategory = false
-    @State private var newCategory = ""
     
     @State private var filterActive: [Category] = []
     @State private var showFilterSheet = false
@@ -131,7 +130,7 @@ struct ListTodoView: View {
             }
         })
         .alert("New Category", isPresented: $showAddCategory, actions: {
-            AlertNewCategoryView(newCategory: $newCategory, dismiss: {showAddCategory.toggle()})
+            AlertNewCategoryView(dismiss: {showAddCategory.toggle()})
         })
         .navigationTitle("ToDo")
         .navigationBarTitleDisplayMode(.large)
@@ -170,8 +169,10 @@ struct ListTodoView: View {
                 }
             }
             
-            ToolbarItem(id: "edit", placement: .navigationBarTrailing) {
-                EditButton()
+            if !self.todoDP.todos.isEmpty {
+                ToolbarItem(id: "edit", placement: .navigationBarTrailing) {
+                    EditButton()
+                }
             }
         }
         .sheet(isPresented: $showAddItemSheet) {

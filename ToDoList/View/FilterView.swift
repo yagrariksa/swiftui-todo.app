@@ -16,6 +16,8 @@ struct FilterView: View {
     @Binding var selected: [Category]
     var dismiss: () -> Void
     
+    @State private var showNewCategory = false
+    
     private func catIsSelected(_ cat: Category) -> Bool {
         return selected.contains(cat)
     }
@@ -25,6 +27,20 @@ struct FilterView: View {
             selected.removeAll(where: {$0 == cat})
         }else{
             selected.append(cat)
+        }
+    }
+    
+    private func performDelete(_ offset: IndexSet) {
+        let data = offset.map { categories[$0] }
+        
+        for datum in data {
+            viewContext.delete(datum)
+        }
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("🔴Fail Delete Category")
         }
     }
     
@@ -49,8 +65,12 @@ struct FilterView: View {
                             }
                         }
                     }
+                    .onDelete(perform: performDelete)
                 }
                 .listStyle(.plain)
+                .alert("New Category", isPresented: $showNewCategory) {
+                    AlertNewCategoryView(dismiss: {showNewCategory.toggle()})
+                }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
@@ -67,6 +87,23 @@ struct FilterView: View {
                         } label: {
                             Text("Reset")
                                 .foregroundColor(.red)
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .bottomBar) {
+                        EditButton()
+                    }
+                    
+                    ToolbarItem(placement: .bottomBar) {
+                        Button {
+                            showNewCategory.toggle()
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus")
+                                Text("Add")
+                                    .foregroundColor(.blue)
+                            }
+                            
                         }
                     }
                 }

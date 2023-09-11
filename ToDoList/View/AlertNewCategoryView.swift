@@ -10,32 +10,32 @@ import SwiftUI
 struct AlertNewCategoryView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @Binding var newCategory: String
+    @State private var newCategory: String = ""
     
     var dismiss: () -> Void
+    
+    func submit() {
+        guard newCategory != "" else { return }
+        
+        do {
+            try Category.create(viewContext, newCategory)
+            print("🟢Success Add Category")
+            dismiss()
+        } catch {
+            print("🔴FAIL Create Category")
+        }
+    }
     
     var body: some View {
         TextField("Category name", text: $newCategory)
         
-        Button("Add") {
-            do {
-                guard newCategory != "" else { return }
-                try Category.create(viewContext, newCategory)
-                newCategory = ""
-                dismiss()
-                print("🟢Success Add Category")
-            } catch {
-                print("🔴ERROR: fail create Category \(String(describing: error))")
-            }
-        }
-        Button("Cancel", role: .cancel) {
-            dismiss()
-        }
+        Button("Add", action: submit)
+        Button("Cancel", role: .cancel, action: dismiss)
     }
 }
 
 struct AlertNewCategoryView_Previews: PreviewProvider {
     static var previews: some View {
-        AlertNewCategoryView(newCategory: .constant(""), dismiss: {})
+        AlertNewCategoryView(dismiss: {})
     }
 }
