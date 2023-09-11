@@ -6,9 +6,16 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ListTodoView: View {
-    var todos = ["a", "b", "c","a", "b", "c","a", "b", "c"]
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    @StateObject private var taskDP = TaskDataPresenter()
+    
+//    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "title", ascending: true)]) private var todos: FetchedResults<Task>
+
+//    var todos = ["a", "b", "c","a", "b", "c","a", "b", "c"]
     
     @State private var yes = false
     @State private var showAddItemSheet = false
@@ -20,10 +27,10 @@ struct ListTodoView: View {
         VStack {
             List {
                 
-                ForEach(todos, id: \.self) { todo in
-                    ListItem(todo: todo, yes: $yes, onClick: {
-                        selected = todo
-                        showAddItemSheet = true
+                ForEach(taskDP.todos, id: \.self) { todo in
+                    TodoItem(todo: todo, onClick: {
+//                        selected = todo
+//                        showAddItemSheet = true
                     })
                 }
                 .padding(.leading, 16)
@@ -34,6 +41,9 @@ struct ListTodoView: View {
                 text: $searchQuery,
                 placement: .navigationBarDrawer(displayMode: .automatic))
             Spacer()
+        }
+        .onAppear{
+            taskDP.fetch(viewContext)
         }
         .navigationTitle("ToDo")
         .navigationBarTitleDisplayMode(.large)
