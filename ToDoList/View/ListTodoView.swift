@@ -22,7 +22,7 @@ struct ListTodoView: View {
     @State private var showAddItemSheet = false
     @State private var searchQuery = "abc"
     
-    @State private var selected: String? = nil
+    @State private var selected: Task? = nil
 
     var body: some View {
         VStack {
@@ -30,8 +30,7 @@ struct ListTodoView: View {
                 
                 ForEach(todos, id: \.self) { todo in
                     TodoItem(todo: todo, onClick: {
-//                        selected = todo
-//                        showAddItemSheet = true
+                        selected = todo
                     })
                 }
                 .padding(.leading, 16)
@@ -46,6 +45,11 @@ struct ListTodoView: View {
         .onAppear{
 //            taskDP.fetch(viewContext)
         }
+        .onChange(of: selected, perform: { _ in
+            if selected != nil {
+                showAddItemSheet.toggle()
+            }
+        })
         .navigationTitle("ToDo")
         .navigationBarTitleDisplayMode(.large)
         .toolbar {

@@ -15,7 +15,7 @@ struct NewTodoView: View {
     private var categories: FetchedResults<Category>
     
     var dismiss: () -> Void
-    var edit: String? = nil
+    var edit: Task? = nil
     
     @State private var title: String = ""
     @State private var haveDeadline: Bool = false
@@ -37,12 +37,32 @@ struct NewTodoView: View {
     func submit() {
         guard title != "" else { return }
         
-        do {
-            try Task.create(viewContext, title, haveDeadline ? deadline : nil, selectedCategories)
-            print("🟢Success create task")
-            dismiss()
-        } catch {
-            print("🔴Fail create Task: \(String(describing: error))")
+        if let edit = edit {
+            edit.title = title
+            edit.deadline = haveDeadline ? deadline : nil
+            for cat in edit.categoriesArray {
+                edit.removeFromCategories(cat)
+            }
+            for cat in selectedCategories {
+                edit.addToCategories(cat)
+            }
+            
+            do {
+                try viewContext.save()
+                print("🟢Success Make Change")
+                dismiss()
+            } catch {
+                print("🔴Fail Save Task: \(String(describing: error))")
+            }
+            
+        } else {
+            do {
+                try Task.create(viewContext, title, haveDeadline ? deadline : nil, selectedCategories)
+                print("🟢Success create task")
+                dismiss()
+            } catch {
+                print("🔴Fail create Task: \(String(describing: error))")
+            }
         }
     }
     
@@ -60,9 +80,13 @@ struct NewTodoView: View {
                             .padding(.top, 8)
                     }
                     
+                    HStack {
+                        Text("Categories")
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                    
                     placeCategoryWithWrapper(proxy)
-//                        .frame(width: proxy.size.width)
-//                        .border(.red)
                         
                     Spacer()
                 }
@@ -71,7 +95,7 @@ struct NewTodoView: View {
                 .toolbar {
                     ToolbarItem(id: "Save", placement: .navigationBarTrailing) {
                         Button(action: submit) {
-                            Text("Add")
+                            Text(edit != nil ? "Save" : "Add")
                         }
                     }
                     
@@ -85,12 +109,23 @@ struct NewTodoView: View {
                         
                     }
                 }
-                .onAppear {
-                    guard let edit = edit else { return }
-                    title = edit
-                }
+                .onChange(of: edit, perform: { _ in
+                   isEdit()
+                })
+                .onAppear(perform: isEdit)
             }
         }
+    }
+    
+    func isEdit() {
+        print("⚪️EDIT: \(String(describing: edit))")
+        guard let edit = edit, let title = edit.title else { return }
+        self.title = title
+        if let deadline = edit.deadline {
+            self.deadline = deadline
+            self.haveDeadline = true
+        }
+        self.selectedCategories = edit.categoriesArray
     }
     
     func btnStyle(_ cat: Category) -> any PrimitiveButtonStyle {
