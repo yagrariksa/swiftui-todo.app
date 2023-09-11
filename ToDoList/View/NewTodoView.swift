@@ -92,7 +92,7 @@ struct NewTodoView: View {
                     Spacer()
                 }
                 .padding()
-                .navigationTitle("New ToDo Item")
+                .navigationTitle((edit != nil ? "Edit" : "New") + " ToDo Item")
                 .toolbar {
                     ToolbarItem(id: "Save", placement: .navigationBarTrailing) {
                         Button(action: submit) {
