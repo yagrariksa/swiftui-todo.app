@@ -18,6 +18,13 @@ struct TodoItem: View {
     func finishToggle() {
         withAnimation {
             todo.finish.toggle()
+            if todo.deadline != nil {
+                if todo.finish {
+                    NotificationScheduler.cancel(todo)
+                }else{
+                    NotificationScheduler.create(todo)
+                }
+            }
             do {
                 try viewContext.save()
             } catch {

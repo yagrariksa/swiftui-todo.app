@@ -39,7 +39,16 @@ struct NewTodoView: View {
         
         if let edit = edit {
             edit.title = title
-            edit.deadline = haveDeadline ? deadline : nil
+            
+            if edit.deadline != nil && !haveDeadline {
+                NotificationScheduler.cancel(edit)
+            }
+            
+            if haveDeadline {
+                edit.deadline = deadline
+                NotificationScheduler.updateNotification(edit)
+            }
+            
             edit.date_update = Date()
             for cat in edit.categoriesArray {
                 edit.removeFromCategories(cat)

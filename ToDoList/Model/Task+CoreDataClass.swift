@@ -33,6 +33,10 @@ public class Task: NSManagedObject {
         newTask.deadline = deadline
         newTask.date_update = Date()
         
+        if let dl = deadline {
+            NotificationScheduler.create(newTask)
+        }
+        
         if let categories = categories {
             for category in categories {
                 newTask.addToCategories(category)
