@@ -11,9 +11,10 @@ import CoreData
 struct ListTodoView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
-    @StateObject private var taskDP = TaskDataPresenter()
+//    @StateObject private var taskDP = TaskDataPresenter()
     
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "title", ascending: true)]) private var todos: FetchedResults<Task>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "title", ascending: true)])
+    private var todos: FetchedResults<Task>
 
 //    var todos = ["a", "b", "c","a", "b", "c","a", "b", "c"]
     
@@ -27,7 +28,7 @@ struct ListTodoView: View {
         VStack {
             List {
                 
-                ForEach(taskDP.todos, id: \.self) { todo in
+                ForEach(todos, id: \.self) { todo in
                     TodoItem(todo: todo, onClick: {
 //                        selected = todo
 //                        showAddItemSheet = true
@@ -43,7 +44,7 @@ struct ListTodoView: View {
             Spacer()
         }
         .onAppear{
-            taskDP.fetch(viewContext)
+//            taskDP.fetch(viewContext)
         }
         .navigationTitle("ToDo")
         .navigationBarTitleDisplayMode(.large)

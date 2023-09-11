@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4068E8D72AAEAD1800F7F12A /* ModelError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4068E8D62AAEAD1800F7F12A /* ModelError.swift */; };
-		4068E8D92AAEAF6F00F7F12A /* Peristence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4068E8D82AAEAF6F00F7F12A /* Peristence.swift */; };
+		4068E8D92AAEAF6F00F7F12A /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4068E8D82AAEAF6F00F7F12A /* Persistence.swift */; };
 		4068E8DE2AAEB3C100F7F12A /* TaskDataPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4068E8DD2AAEB3C100F7F12A /* TaskDataPresenter.swift */; };
 		4068E8E32AAEB9EA00F7F12A /* Task+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4068E8DF2AAEB9EA00F7F12A /* Task+CoreDataClass.swift */; };
 		4068E8E52AAEB9EA00F7F12A /* Category+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4068E8E12AAEB9EA00F7F12A /* Category+CoreDataClass.swift */; };
@@ -44,7 +44,7 @@
 
 /* Begin PBXFileReference section */
 		4068E8D62AAEAD1800F7F12A /* ModelError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelError.swift; sourceTree = "<group>"; };
-		4068E8D82AAEAF6F00F7F12A /* Peristence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peristence.swift; sourceTree = "<group>"; };
+		4068E8D82AAEAF6F00F7F12A /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		4068E8DD2AAEB3C100F7F12A /* TaskDataPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataPresenter.swift; sourceTree = "<group>"; };
 		4068E8DF2AAEB9EA00F7F12A /* Task+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+CoreDataClass.swift"; sourceTree = "<group>"; };
 		4068E8E12AAEB9EA00F7F12A /* Category+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 				40B6EBBA2AADF7C80023DB38 /* ContentView.swift */,
 				40B6EBBC2AADF7C90023DB38 /* Assets.xcassets */,
 				40B6EBBE2AADF7C90023DB38 /* Preview Content */,
-				4068E8D82AAEAF6F00F7F12A /* Peristence.swift */,
+				4068E8D82AAEAF6F00F7F12A /* Persistence.swift */,
 				4068E8E72AAEBAC800F7F12A /* ToDoList.xcdatamodeld */,
 			);
 			path = ToDoList;
@@ -323,7 +323,7 @@
 				4068E8D72AAEAD1800F7F12A /* ModelError.swift in Sources */,
 				4068E8E92AAEBAC800F7F12A /* ToDoList.xcdatamodeld in Sources */,
 				40B6EBB92AADF7C80023DB38 /* ToDoListApp.swift in Sources */,
-				4068E8D92AAEAF6F00F7F12A /* Peristence.swift in Sources */,
+				4068E8D92AAEAF6F00F7F12A /* Persistence.swift in Sources */,
 				4068E8E52AAEB9EA00F7F12A /* Category+CoreDataClass.swift in Sources */,
 				40B6EBF32AAE05BC0023DB38 /* NewTodoView.swift in Sources */,
 				4068E8E32AAEB9EA00F7F12A /* Task+CoreDataClass.swift in Sources */,

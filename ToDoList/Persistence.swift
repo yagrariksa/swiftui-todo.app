@@ -8,11 +8,11 @@
 import Foundation
 import CoreData
 
-struct PeristenceController {
-    static let shared = PeristenceController()
+struct PersistenceController {
+    static let shared = PersistenceController()
     
-    static var example: PeristenceController = {
-        let persistence = PeristenceController(inMemory: true)
+    static var example: PersistenceController = {
+        let persistence = PersistenceController(inMemory: true)
         let viewContext = persistence.container.viewContext
         
         let fetch = NSFetchRequest<Task>(entityName: "Task")

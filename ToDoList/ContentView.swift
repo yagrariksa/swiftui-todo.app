@@ -24,6 +24,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
             .environment(
                 \.managedObjectContext,
-                 PeristenceController.example.container.viewContext)
+                 PersistenceController.example.container.viewContext)
     }
 }
