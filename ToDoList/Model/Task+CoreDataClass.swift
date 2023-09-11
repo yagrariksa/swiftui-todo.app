@@ -31,6 +31,7 @@ public class Task: NSManagedObject {
         let newTask = Task(context: viewContext)
         newTask.title = title
         newTask.deadline = deadline
+        newTask.date_update = Date()
         
         if let categories = categories {
             for category in categories {
@@ -48,6 +49,6 @@ public class Task: NSManagedObject {
     
     var categoriesArray: [Category]  {
         let set = categories as? Set<Category> ?? []
-        return Array(set)
+        return set.sorted(by: {$0.title! < $1.title!})
     }
 }

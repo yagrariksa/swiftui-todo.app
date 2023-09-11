@@ -13,7 +13,7 @@ struct ListTodoView: View {
     
 //    @StateObject private var taskDP = TaskDataPresenter()
     
-    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "title", ascending: true)])
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "date_update", ascending: true)])
     private var todos: FetchedResults<Task>
 
 //    var todos = ["a", "b", "c","a", "b", "c","a", "b", "c"]
@@ -27,14 +27,35 @@ struct ListTodoView: View {
     var body: some View {
         VStack {
             List {
-                
-                ForEach(todos, id: \.self) { todo in
+                ForEach(todos.filter({ todo in
+                    return !todo.finish
+                }), id: \.self) { todo in
                     TodoItem(todo: todo, onClick: {
                         selected = todo
                     })
                 }
+                .onDelete(perform: { offset in
+                    offset.map { todos[$0] }.forEach(viewContext.delete)
+                })
                 .padding(.leading, 16)
                 .padding(.vertical, 4)
+                
+                
+                let finished = todos.filter({ todo in
+                    return todo.finish
+                })
+                if finished.count > 0 {
+                    Section("Finished") {
+                        ForEach(finished, id: \.self) { todo in
+                            TodoItem(todo: todo, onClick: {
+                                selected = todo
+                            })
+                        }
+                        .padding(.leading, 16)
+                        .padding(.vertical, 4)
+                    }
+                }
+                
             }
             .listStyle(.plain)
             .searchable(

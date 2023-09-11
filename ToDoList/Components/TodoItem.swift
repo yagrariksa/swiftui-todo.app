@@ -8,19 +8,29 @@
 import SwiftUI
 
 struct TodoItem: View {
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    
     var todo: Task
     var onClick: () -> Void
+    
+    func finishToggle() {
+        withAnimation {
+            todo.finish.toggle()
+            do {
+                try viewContext.save()
+            } catch {
+                print("🔴Fail Toggle Finish")
+            }
+        }
+    }
     
     var body: some View {
         HStack(alignment: .top) {
             Image(systemName: todo.finish ? "checkmark.circle.fill" : "circle")
                 .resizable()
                 .frame(width: 25, height: 25)
-                .onTapGesture {
-                    withAnimation {
-//                        yes.toggle()
-                    }
-                }
+                .onTapGesture(perform: finishToggle)
                 .padding(.trailing, 8)
                 .padding(.top, 8)
             
@@ -47,6 +57,7 @@ struct TodoItem: View {
             Text(todo.title!)
                 .font(.headline)
                 .foregroundColor(.black)
+                .strikethrough(todo.finish)
             HStack {
                 if let deadline = todo.deadline {
                     Text("Deadline:")
