@@ -45,7 +45,7 @@ struct ListTodoView: View {
     func performDelete(_ offset: IndexSet, _ array: [Task] ) {
         let datas = offset.map { array[$0] }
         for data in datas {
-            if let dl = data.deadline {
+            if data.deadline != nil {
                 NotificationScheduler.cancel(data)
             }
             viewContext.delete(data)

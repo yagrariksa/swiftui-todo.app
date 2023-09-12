@@ -22,6 +22,8 @@ struct NewTodoView: View {
     @State private var deadline: Date = Date()
     @State private var selectedCategories: [Category] = []
     
+    @State private var showAddCategory = false
+    
     func toggleCategory(_ cat: Category) {
         if isActive(cat) {
             selectedCategories.removeAll(where: {$0 == cat})
@@ -79,28 +81,31 @@ struct NewTodoView: View {
     var body: some View {
         GeometryReader { proxy in
             NavigationView {
-                VStack {
-                    TextField("Title", text: $title)
-                        .textFieldStyle(.roundedBorder)
+                List {
+                    inputTitle
                     
-                    Toggle("Deadline", isOn: $haveDeadline)
-                        .padding(.top, 16)
-                    if haveDeadline {
-                        DatePicker("", selection: $deadline)
-                            .padding(.top, 8)
-                    }
+                    inputDeadline
                     
-                    HStack {
+                    Section  {
+                        Button(action: {
+                            showAddCategory.toggle()
+                        }) {
+                            HStack {
+                                Spacer()
+                                Image(systemName: "plus")
+                                Text("Add Category")
+                            }
+                            .clipShape(Rectangle())
+                        }
+                        .buttonStyle(.borderless)
+                        placeCategoryWithWrapper(proxy)
+                    } header: {
                         Text("Categories")
-                            .foregroundColor(.gray)
-                        Spacer()
+                    } footer: {
+                        Text("you can select none, one, or many")
                     }
-                    
-                    placeCategoryWithWrapper(proxy)
-                        
-                    Spacer()
                 }
-                .padding()
+                .listStyle(.insetGrouped)
                 .navigationTitle((edit != nil ? "Edit" : "New") + " ToDo Item")
                 .toolbar {
                     ToolbarItem(id: "Save", placement: .navigationBarTrailing) {
@@ -116,14 +121,37 @@ struct NewTodoView: View {
                             Text("Cancel")
                                 .foregroundColor(.red)
                         }
-                        
                     }
                 }
                 .onChange(of: edit, perform: { _ in
                    isEdit()
                 })
                 .onAppear(perform: isEdit)
+                .alert("New Category", isPresented: $showAddCategory, actions: {
+                    AlertNewCategoryView(dismiss: {showAddCategory.toggle()})
+                })
             }
+        }
+    }
+    
+    var inputTitle: some View {
+        Section("Title") {
+            TextField("Do Something", text: $title)
+        }
+    }
+    
+    var inputDeadline: some View {
+        Section {
+            Toggle("Enable", isOn: $haveDeadline)
+            
+            if haveDeadline {
+                DatePicker("", selection: $deadline)
+                    .padding(.top, 8)
+            }
+        } header: {
+            Text("Deadline")
+        } footer: {
+            Text("it will set a reminder as notification")
         }
     }
     

@@ -14,11 +14,18 @@ struct AlertNewCategoryView: View {
     
     var dismiss: () -> Void
     
+    func _dismiss()
+    {
+        newCategory = ""
+        dismiss()
+    }
+    
     func submit() {
         guard newCategory != "" else { return }
         
         do {
             try Category.create(viewContext, newCategory)
+            newCategory = ""
             print("🟢Success Add Category")
             dismiss()
         } catch {
@@ -30,7 +37,7 @@ struct AlertNewCategoryView: View {
         TextField("Category name", text: $newCategory)
         
         Button("Add", action: submit)
-        Button("Cancel", role: .cancel, action: dismiss)
+        Button("Cancel", role: .cancel, action: _dismiss)
     }
 }
 
