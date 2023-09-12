@@ -9,6 +9,7 @@ import Foundation
 
 class TodoDataPresenter: ObservableObject {
     private var origin_todos: [Task] = []
+    private var filtered_todos: [Task] = []
     @Published var todos: [Task] = []
     
     func updateAll(_ todos: [Task], _ filter: [Category], _ query: String?) {
@@ -19,17 +20,20 @@ class TodoDataPresenter: ObservableObject {
     
     private func filter(_ cats: [Category]) {
         guard !cats.isEmpty else {
-            self.todos = origin_todos
+            self.filtered_todos = self.origin_todos
+            self.todos = self.filtered_todos
             return
         }
-        self.todos = origin_todos.filter { task in
+        self.filtered_todos = self.origin_todos.filter { task in
             task.categoriesArray.contains(cats)
         }
+        
+        self.todos = self.filtered_todos
     }
     
     func search(_ query: String?) {
         guard let query = query, query != "" else { return }
-        self.todos = self.todos.filter {
+        self.todos = self.filtered_todos.filter {
             $0.title!
                 .lowercased()
                 .localizedStandardContains(query.lowercased())
